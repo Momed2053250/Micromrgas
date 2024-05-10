@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
+  
+  <define/>
+  
+  <materials>
+
+    <material name="G4_AIR" state="gas">
+      <T unit="K" value="293.15"/>
+      <MEE unit="eV" value="85.7"/>
+      <D unit="g/cm3" value="0.00120479"/>
+      <fraction n="0.000124000124000124" ref="C"/>
+      <fraction n="0.755267755267755" ref="N"/>
+      <fraction n="0.231781231781232" ref="O"/>
+      <fraction n="0.0128270128270128" ref="Ar"/>
+    </material>
+
+    <material name="GEM_GAS" state="gas">
+      <T unit="K" value="293.15"/>
+      <MEE unit="eV" value="85.7"/>
+      <D unit="g/cm3" value="0.00120479"/>
+      <fraction n="1.0" ref="Ar"/>
+    </material>  
+
+    <element name="Ar">
+      <fraction n="0.003365" ref="Ar36"/>
+      <fraction n="0.000632" ref="Ar38"/>
+      <fraction n="0.996003" ref="Ar40"/>
+    </element>
+
+    <element name="carbon" Z="6.0">
+      <T unit="K" value="293.15"/>
+      <D unit="g/cm3" value="2.2650"/>
+      <atom value="12.011"/>      
+    </element>
+    
+    <material name="Copper" Z="29.0">
+      <T unit="K" value="293.15"/>
+      <D unit="g/cm3" value="8.96"/>
+      <atom value="63.546"/>
+    </material>
+
+    <material name="ArCO2" formula="ArCO2">
+      <T unit="K" value="293.15"/>
+      <D unit="g/cm3" value="0.002"/>
+      <composite n="1" ref="Ar"/>
+      <composite n="1" ref="C"/>
+      <composite n="2" ref="O"/>
+    </material>
+    
+    <material name="EpoxyResin" formula="C38H40O6Br4">
+      <D value="1.1250" unit="g/cm3"/>
+      <composite n="38" ref="C"/>
+      <composite n="40" ref="H"/>
+      <composite n="6" ref="O"/>
+      <composite n="4" ref="Br"/>
+    </material>
+    <material name="SiO2" formula="SiO2">
+      <D value="2.2" unit="g/cm3"/>
+      <composite n="1" ref="Si"/>
+      <composite n="2" ref="O"/>
+    </material>
+    <material name="Al2O3" formula="Al2O3">
+      <D value="3.97" unit="g/cm3"/>
+      <composite n="2" ref="Al"/>
+      <composite n="3" ref="O"/>
+    </material>
+    <material name="Fe2O3" formula="Fe2O3">
+      <D value="5.24" unit="g/cm3"/>
+      <composite n="2" ref="Fe"/>
+      <composite n="3" ref="O"/>
+    </material>
+    <material name="CaO" formula="CaO">
+      <D value="3.35" unit="g/cm3"/>
+      <composite n="1" ref="Ca"/>
+      <composite n="1" ref="O"/>
+    </material>
+    <material name="MgO" formula="MgO">
+      <D value="3.58" unit="g/cm3"/>
+      <composite n="1" ref="Mg"/>
+      <composite n="1" ref="O"/>
+    </material>
+    <material name="Na2O" formula="Na2O">
+      <D value="2.27" unit="g/cm3"/>
+      <composite n="2" ref="Na"/>
+      <composite n="1" ref="O"/>
+    </material>
+    <material name="TiO2" formula="TiO2">
+      <D value="4.23" unit="g/cm3"/>
+      <composite n="1" ref="Ti"/>
+      <composite n="2" ref="O"/>
+    </material>
+    <material name="FibrousGlass">
+      <D value="2.74351" unit="g/cm3"/>
+      <fraction n="0.600" ref="SiO2"/>
+      <fraction n="0.118" ref="Al2O3"/>
+      <fraction n="0.001" ref="Fe2O3"/>
+      <fraction n="0.224" ref="CaO"/>
+      <fraction n="0.034" ref="MgO"/>
+      <fraction n="0.010" ref="Na2O"/>
+      <fraction n="0.013" ref="TiO2"/>
+    </material>
+    <material name="FR4">
+      <D value="1.98281" unit="g/cm3"/>
+      <fraction n="0.47" ref="EpoxyResin"/>
+      <fraction n="0.53" ref="FibrousGlass"/>
+    </material>  
+           
+  </materials>
+
+  <solids>
+    <box lunit="mm" name="World" x="2000" y="2000" z="1000"/>
+    <box lunit="mm" name="FR4Layer" x="1000" y="1000" z="0.5" />
+    <box lunit="mm" name="CuLayer" x="1000" y="1000" z="0.017" />
+    <box lunit="mm" name="GAP" x="1000" y="1000" z="5.0" />
+  </solids>
+  
+  <structure>
+    <volume name="FR4">
+      <materialref ref="FR4"/>
+      <solidref ref="FR4Layer"/>
+    </volume>
+    <volume name="Cu">
+      <materialref ref="Copper"/>
+      <solidref ref="CuLayer"/>
+    </volume>
+    <volume name="GasGap">
+      <materialref ref="ArCO2"/>
+      <solidref ref="GAP"/>
+    </volume>
+    
+    <volume name="World">
+      <materialref ref="G4_AIR"/>
+      <solidref ref="World"/>
+
+      <physvol name="FR4">
+	<volumeref ref="FR4"/>
+	<position name="FR4_pos" unit="mm" x="0" y="0" z="10.0"/>
+      </physvol>
+      <physvol name="Cu">
+	<volumeref ref="Cu"/>
+	<position name="Cu_pos" unit="mm" x="0" y="0" z="10.2585"/>
+      </physvol>
+      <physvol name="GasGap">
+	<volumeref ref="GasGap"/>
+	<position name="GasGap_pos" unit="mm" x="0" y="0" z="12.767"/>
+      </physvol>
+      
+    </volume>
+  </structure>
+  
+  <setup name="Default" version="1.0">
+    <world ref="World"/>
+  </setup>
+  
+</gdml>
