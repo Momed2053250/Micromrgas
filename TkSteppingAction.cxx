@@ -4,6 +4,10 @@
 
 #include "G4RunManager.hh"
 
+
+
+// Adding a line just to check if the git fucntins are used correctly 
+Bool flag = True;
 TkSteppingAction::TkSteppingAction(EventWriter* eventWriter) :
   m_eventWriter(eventWriter),
   m_currentVolumeName("World"),
